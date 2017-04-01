@@ -146,7 +146,7 @@ uint16_t MPU9250_SensorReading(SensorType sensor, uint8_t* data)
 {
 	uint8_t device_address;
 	uint8_t reg_address;
-	uint16_t xData, yData, zData;
+	int16_t xData, yData, zData;
 
 	// Check inputs
 	if(data == NULL)
@@ -206,23 +206,41 @@ uint16_t MPU9250_SensorReading(SensorType sensor, uint8_t* data)
 	STATUS_CHECKED_CALL(I2C_Read(device_address, reg_address, 6, data));
 
 	// Convert data
-	xData = (((uint16_t)data[0] << 8) | data[1]);
-	yData = (((uint16_t)data[2] << 8) | data[3]);
-	zData = (((uint16_t)data[4] << 8) | data[5]);	
+	xData = (((int16_t)data[0] << 8) | data[1]);
+	yData = (((int16_t)data[2] << 8) | data[3]);
+	zData = (((int16_t)data[4] << 8) | data[5]);	
 
-	switch(sensor)
+	memcpy(&data[0], &xData, sizeof(int16_t));
+	memcpy(&data[2], &yData, sizeof(int16_t));
+	memcpy(&data[4], &zData, sizeof(int16_t));
+
+	return STATUS_SUCCESS;
+}
+
+uint16_t MPU9250_AccelToG(int16_t x, int16_t y, int16_t z, float* xG, float* yG, float* zG)
+{
+	if(xG == NULL || yG == NULL || zG == NULL)
 	{
-		case SENSOR_ACCEL:
-		{
-			xData *= MPU9250_A_RES_2G;
-			yData *= MPU9250_A_RES_2G;
-			zData *= MPU9250_A_RES_2G;
-
-			memcpy(&data[0], &xData, sizeof(uint16_t));
-			memcpy(&data[2], &yData, sizeof(uint16_t));
-			memcpy(&data[4], &zData, sizeof(uint16_t));
-		}
+		return E_DRV_IMU_INVALID_INPUT;
 	}
+
+	*xG = x * MPU9250_A_RES_2G;
+	*yG = y * MPU9250_A_RES_2G;
+	*zG = z * MPU9250_A_RES_2G;
+
+	return STATUS_SUCCESS;
+}
+
+uint16_t MPU9250_GyroToDPS(int16_t x, int16_t y, int16_t z, float* xDPS, float* yDPS, float* zDPS)
+{
+	if(xDPS == NULL || yDPS == NULL || zDPS == NULL)
+	{
+		return E_DRV_IMU_INVALID_INPUT;
+	}
+
+	*xDPS = x * MPU9250_G_RES_250DPS;
+	*yDPS = y * MPU9250_G_RES_250DPS;
+	*zDPS = z * MPU9250_G_RES_250DPS;
 
 	return STATUS_SUCCESS;
 }

@@ -9,6 +9,7 @@
 extern "C" {
 #endif
 
+
 //
 // HAL IMU Types
 //
@@ -21,6 +22,7 @@ typedef enum _SensorType
 	SENSOR_LEN
 } SensorType;
 
+
 //
 // Function Prototypes
 //
@@ -29,6 +31,8 @@ uint16_t IMU_Initialize();
 uint16_t IMU_Reset();
 uint16_t IMU_SelfTest();
 uint16_t IMU_SensorReading(SensorType sensor, uint8_t* data);
+uint16_t IMU_AccelToG(int16_t x, int16_t y, int16_t z, float* xG, float* yG, float* zG);
+uint16_t IMU_GyroToDPS(int16_t x, int16_t y, int16_t z, float* xDPS, float* yDPS, float* zDPS);
 
 #ifdef __cplusplus
 }

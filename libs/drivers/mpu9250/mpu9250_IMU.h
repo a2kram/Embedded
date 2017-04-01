@@ -21,7 +21,8 @@ extern "C" {
 //
 
 #define MPU9250_WHOAMI_VALUE				(0x71)
-#define MPU9250_A_RES_2G					(2.0 / 32768)
+#define MPU9250_A_RES_2G					(2.0f / 32768.0f)
+#define MPU9250_G_RES_250DPS				(250.0f / 32768.0f)
 
 // 
 // MPU9250 Register Addresses
@@ -145,6 +146,8 @@ uint16_t MPU9250_Reset();
 uint16_t AK8963_Reset();
 uint16_t MPU9250_SelfTest();
 uint16_t MPU9250_SensorReading(SensorType sensor, uint8_t* data);
+uint16_t MPU9250_AccelToG(int16_t x, int16_t y, int16_t z, float* xG, float* yG, float* zG);
+uint16_t MPU9250_GyroToDPS(int16_t x, int16_t y, int16_t z, float* xG, float* yG, float* zG);
 
 #ifdef __cplusplus
 }

@@ -19,6 +19,7 @@ char* SensorList[3] = {"Accelerometer", "Gyroscope", "Compass"};
 int main()
 {
 	int16_t data[3] = {0};
+	float x, y, z;
 	uint32_t sensor = 0;
 
 	// Initialize SOC
@@ -35,10 +36,35 @@ int main()
 	// Read and output sensor data 
 	while(1)
 	{
-		sensor = 0;//(++sensor) % SENSOR_LEN;
+		sensor = 1;//(++sensor) % SENSOR_LEN;
 		STATUS_REPORT_CALL(IMU_SensorReading((SensorType)sensor, (uint8_t*)data), "IMU_SensorReading");
 
-		Debug_Print("%s X: %d Y: %d Z: %d\n", SensorList[sensor], data[0], data[1], data[2]);
+		switch(sensor)
+		{
+			case SENSOR_ACCEL:
+			{
+				IMU_AccelToG(data[0], data[1], data[2], &x, &y, &z);
+				break;
+			}
+			case SENSOR_GYRO:
+			{
+				IMU_GyroToDPS(data[0], data[1], data[2], &x, &y, &z);
+				break;
+			}
+			case SENSOR_COMPASS:
+			{
+				break;
+			}
+		}
+
+		Debug_Print("%s X:", SensorList[sensor]);
+		Debug_PrintFloat(x, 3);
+		Debug_Print(" Y:");
+		Debug_PrintFloat(y, 3);
+		Debug_Print(" Z:");
+		Debug_PrintFloat(z, 3);
+		Debug_Print("\n");
+
 		Timers_DelayMs(1000);
 	}
 

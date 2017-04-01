@@ -23,7 +23,7 @@ extern "C" {
 //	
 
 void Debug_Print(const char* format, ...);
-
+void Debug_PrintFloat(float value, int places);
 
 #ifdef __cplusplus
 }
