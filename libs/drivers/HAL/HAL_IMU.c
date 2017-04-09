@@ -78,6 +78,19 @@ uint16_t IMU_GyroToDPS(int16_t x, int16_t y, int16_t z, float* xDPS, float* yDPS
 	#endif
 }
 
+//
+// Convert ADC output to milliGauss
+//
+
+uint16_t IMU_MagTomG(int16_t x, int16_t y, int16_t z, float* xmG, float* ymG, float* zmG)
+{
+	#ifdef IMU_MPU9250
+		return MPU9250_MagTomG(x, y, z, xmG, ymG, zmG);
+	#else
+		return STATUS_UNIMPLEMENTED;
+	#endif
+}
+
 
 //
 // Run IMU self-test

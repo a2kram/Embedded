@@ -36,23 +36,24 @@ int main()
 	// Read and output sensor data 
 	while(1)
 	{
-		sensor = 1;//(++sensor) % SENSOR_LEN;
+		sensor = (++sensor) % SENSOR_LEN;
 		STATUS_REPORT_CALL(IMU_SensorReading((SensorType)sensor, (uint8_t*)data), "IMU_SensorReading");
 
 		switch(sensor)
 		{
 			case SENSOR_ACCEL:
 			{
-				IMU_AccelToG(data[0], data[1], data[2], &x, &y, &z);
+				STATUS_REPORT_CALL(IMU_AccelToG(data[0], data[1], data[2], &x, &y, &z), "IMU_AccelToG");
 				break;
 			}
 			case SENSOR_GYRO:
 			{
-				IMU_GyroToDPS(data[0], data[1], data[2], &x, &y, &z);
+				STATUS_REPORT_CALL(IMU_GyroToDPS(data[0], data[1], data[2], &x, &y, &z), "IMU_GyroToDPS");
 				break;
 			}
 			case SENSOR_COMPASS:
 			{
+				STATUS_REPORT_CALL(IMU_MagTomG(data[0], data[1], data[2], &x, &y, &z), "IMU_MagTomG");
 				break;
 			}
 		}

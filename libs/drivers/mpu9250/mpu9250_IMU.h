@@ -23,6 +23,8 @@ extern "C" {
 #define MPU9250_WHOAMI_VALUE				(0x71)
 #define MPU9250_A_RES_2G					(2.0f / 32768.0f)
 #define MPU9250_G_RES_250DPS				(250.0f / 32768.0f)
+#define MPU9250_M_RES_16B					(10.0f * 4912.0f / 32760.0f)
+#define AK8963_WHOAMI_VALUE					(0x48)
 
 // 
 // MPU9250 Register Addresses
@@ -51,6 +53,7 @@ extern "C" {
 #define MPU9250_YA_OFFSET_H					(0x7A)
 #define MPU9250_ZA_OFFSET_H					(0x7D)
 
+#define AK8963_WHO_AM_I						(0x00)
 #define AK8963_ST1							(0x02)
 #define AK8963_XOUT_L						(0x03)
 #define AK8963_ST2							(0x09)
@@ -148,6 +151,7 @@ uint16_t MPU9250_SelfTest();
 uint16_t MPU9250_SensorReading(SensorType sensor, uint8_t* data);
 uint16_t MPU9250_AccelToG(int16_t x, int16_t y, int16_t z, float* xG, float* yG, float* zG);
 uint16_t MPU9250_GyroToDPS(int16_t x, int16_t y, int16_t z, float* xG, float* yG, float* zG);
+uint16_t MPU9250_MagTomG(int16_t x, int16_t y, int16_t z, float* xmG, float* ymG, float* zmG);
 
 #ifdef __cplusplus
 }

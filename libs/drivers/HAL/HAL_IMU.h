@@ -33,6 +33,7 @@ uint16_t IMU_SelfTest();
 uint16_t IMU_SensorReading(SensorType sensor, uint8_t* data);
 uint16_t IMU_AccelToG(int16_t x, int16_t y, int16_t z, float* xG, float* yG, float* zG);
 uint16_t IMU_GyroToDPS(int16_t x, int16_t y, int16_t z, float* xDPS, float* yDPS, float* zDPS);
+uint16_t IMU_MagTomG(int16_t x, int16_t y, int16_t z, float* xmG, float* ymG, float* zmG);
 
 #ifdef __cplusplus
 }

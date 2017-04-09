@@ -72,7 +72,7 @@ uint16_t MPU9250_Initialize()
 	data = ((MPU9250_LATCH_INT_EN_HOLD << MPU9250_LATCH_INT_EN_SHIFT) | 
 		   (MPU9250_INT_BYPASS_EN_ENABLED << MPU9250_INT_BYPASS_EN_SHIFT));
 	STATUS_CHECKED_CALL(I2C_Write(MPU9250_ADDRESS, MPU9250_INT_PIN_CFG, 1, &data, true))
-	
+
 	// Enable data ready interrupt
 	data = (MPU9250_INT_RAW_RDY_EN_ENABLED << MPU9250_INT_RAW_RDY_EN_SHIFT);
 	STATUS_CHECKED_CALL(I2C_Write(MPU9250_ADDRESS, MPU9250_INT_ENABLE, 1, &data, true)) 
@@ -84,6 +84,14 @@ uint16_t MPU9250_Initialize()
 
 	Timers_DelayMs(10);
 
+	// Compass WhoAmI Test
+	STATUS_CHECKED_CALL(I2C_Read(AK8963_ADDRESS, AK8963_WHO_AM_I, 1, &data))
+
+	if(data != AK8963_WHOAMI_VALUE)
+	{
+		return E_DRV_IMU_INVALID_WHOAMI;
+	}
+	
 	// Set compass to 16 bit resolution and continuous mode data acquisition
 	data = (uint8_t)((AK8963_CNTL1_BIT_16B << AK8963_CNTL1_BIT_SHIFT) | 
 		   (AK8963_CNTL1_MODE_CNT_MEAS_100HZ << AK8963_CNTL1_MODE_SHIFT));
@@ -179,13 +187,20 @@ uint16_t MPU9250_SensorReading(SensorType sensor, uint8_t* data)
 			// Check if data is ready
 			STATUS_CHECKED_CALL(I2C_Read(AK8963_ADDRESS, AK8963_ST1, 1, data))
 
+			Debug_Print("1 X: %d (%d)\n", data[0], (AK8963_ST1_DRDY_RDY << AK8963_ST1_DRDY_SHIFT));
+
 			if((data[0] & AK8963_ST1_DRDY_MASK) != (AK8963_ST1_DRDY_RDY << AK8963_ST1_DRDY_SHIFT))
 			{
+				Debug_Print("just\n");
 				return E_DRV_IMU_DATA_NOT_READY;
 			}
 
+			Debug_Print("incase\n");
+
 			// Check if magnetic sensor overflow bit is set
 			STATUS_CHECKED_CALL(I2C_Read(AK8963_ADDRESS, AK8963_ST2, 1, data))
+
+			Debug_Print("2 X: %d (%d)\n", data[0], (AK8963_ST1_DRDY_RDY << AK8963_ST1_DRDY_SHIFT));
 
 			if((data[0] & AK8963_ST2_HOFL_MASK) != (AK8963_ST2_HOFL_OVERFLOW << AK8963_ST2_HOFL_SHIFT))
 			{
@@ -205,14 +220,17 @@ uint16_t MPU9250_SensorReading(SensorType sensor, uint8_t* data)
 	// Read data
 	STATUS_CHECKED_CALL(I2C_Read(device_address, reg_address, 6, data));
 
-	// Convert data
-	xData = (((int16_t)data[0] << 8) | data[1]);
-	yData = (((int16_t)data[2] << 8) | data[3]);
-	zData = (((int16_t)data[4] << 8) | data[5]);	
-
-	memcpy(&data[0], &xData, sizeof(int16_t));
-	memcpy(&data[2], &yData, sizeof(int16_t));
-	memcpy(&data[4], &zData, sizeof(int16_t));
+	if(sensor != SENSOR_COMPASS)
+	{
+		// Convert data
+		xData = (((int16_t)data[0] << 8) | data[1]);
+		yData = (((int16_t)data[2] << 8) | data[3]);
+		zData = (((int16_t)data[4] << 8) | data[5]);
+	
+		memcpy(&data[0], &xData, sizeof(int16_t));
+		memcpy(&data[2], &yData, sizeof(int16_t));
+		memcpy(&data[4], &zData, sizeof(int16_t));
+	}
 
 	return STATUS_SUCCESS;
 }
@@ -241,6 +259,20 @@ uint16_t MPU9250_GyroToDPS(int16_t x, int16_t y, int16_t z, float* xDPS, float* 
 	*xDPS = x * MPU9250_G_RES_250DPS;
 	*yDPS = y * MPU9250_G_RES_250DPS;
 	*zDPS = z * MPU9250_G_RES_250DPS;
+
+	return STATUS_SUCCESS;
+}
+
+uint16_t MPU9250_MagTomG(int16_t x, int16_t y, int16_t z, float* xmG, float* ymG, float* zmG)
+{
+	if(xmG == NULL || ymG == NULL || zmG == NULL)
+	{
+		return E_DRV_IMU_INVALID_INPUT;
+	}
+
+	*xmG = x * MPU9250_M_RES_16B;
+	*ymG = y * MPU9250_M_RES_16B;
+	*zmG = z * MPU9250_M_RES_16B;
 
 	return STATUS_SUCCESS;
 }
