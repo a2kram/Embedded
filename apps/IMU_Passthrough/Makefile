@@ -1,5 +1,6 @@
 SRC_DIR := 
 INC_DIR := ../../common
+CMN_DIR := ../../../common
 OBJ_DIR := obj/
 BIN_DIR := bin/
 DRV_DIR := ../../libs/drivers
@@ -32,7 +33,7 @@ endif
 
 CFLAGS := $(MCU) $(CPU_SPEED) -w -Wl,--gc-sections -ffunction-sections -fdata-sections
 LFLAGS := -L $(OUT_DRV_DIR) -L $(OUT_LIB_DIR) -l$(LIBS_LIB) -l$(HAL_LIB)
-IFLAGS := -I $(INC_DIR) -I $(DRV_DIR) -I $(LIB_DIR)
+IFLAGS := -I $(INC_DIR) -I $(CMN_DIR) -I $(DRV_DIR) -I $(LIB_DIR)
 
 #define these as special targets, meaning run even if a "all" file exists and is update to date
 .PHONY: $(APP_DEPLIB) clean upload

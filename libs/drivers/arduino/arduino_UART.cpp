@@ -4,10 +4,10 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "common/facility.h"
-#include "common/statuscodes.h"
+#include "facility.h"
+#include "statuscodes.h"
 #include "SOC/Arduino.h"
-#include "../HAL/HAL_UART.h"
+#include "HAL/HAL_UART.h"
 #include "arduino_UART.h"
 
 
@@ -191,6 +191,28 @@ uint16_t Arduino_UART_Print(const uint8_t numport, const char *buffer)
 	}
 
 	Serial.write(buffer);
+
+	return STATUS_SUCCESS;
+}
+
+
+//
+//	Send buffer to UART buffer
+//	
+
+uint16_t Arduino_UART_Send(const uint8_t numport, const uint8_t *buffer, int len)
+{
+	if(!sInitialized)
+	{
+		return E_DRV_UART_NOT_INITIALIZED;
+	}
+	
+	if(buffer == NULL || len <= 0)
+	{
+		return E_DRV_UART_INVALID_INPUT;
+	}
+
+	Serial.write(buffer, len);
 
 	return STATUS_SUCCESS;
 }

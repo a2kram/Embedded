@@ -1,8 +1,9 @@
 OUT_DIR := out/
 DBG_DIR := Debug/
+HCI_DIR := HCI/
 LIB_NAME := libLIBS_$(BOARD)
 LIB_OUT := $(OUT_DIR)$(LIB_NAME).a
-LIB_DEPLIB := LIB_DEBUG
+LIB_DEPLIB := LIB_DEBUG LIB_HCI
 
 ifeq ($(BOARD),ARDUINO)
 	AR_TOOL := avr-ar
@@ -23,6 +24,9 @@ LIBRARIES: $(LIB_DEPLIB)
 
 LIB_DEBUG:
 	$(MAKE) -C $(DBG_DIR) $@ BOARD=$(BOARD)
+
+LIB_HCI:
+	$(MAKE) -C $(HCI_DIR) $@ BOARD=$(BOARD)
 
 clean:
 	$(shell rm $(OUT_DIR)* 2> /dev/null)

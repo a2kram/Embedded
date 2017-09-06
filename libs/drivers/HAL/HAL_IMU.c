@@ -3,13 +3,13 @@
 */
 
 #include <stdint.h>
-#include "common/facility.h"
-#include "common/statuscodes.h"
-#include "common/board.h"
+#include "facility.h"
+#include "statuscodes.h"
+#include "board.h"
 #include "HAL_IMU.h"
 
 #ifdef IMU_MPU9250
-#include "../mpu9250/mpu9250_IMU.h"
+#include "mpu9250/mpu9250_IMU.h"
 #endif
 
 
@@ -17,7 +17,7 @@
 // Initialize IMU
 //
 
-uint16_t IMU_Initialize()
+inline uint16_t IMU_Initialize()
 {
 	#ifdef IMU_MPU9250
 		return MPU9250_Initialize();
@@ -31,7 +31,7 @@ uint16_t IMU_Initialize()
 // Reset IMU
 //
 
-uint16_t IMU_Reset()
+inline uint16_t IMU_Reset()
 {
 	#ifdef IMU_MPU9250
 		return MPU9250_Reset();
@@ -43,7 +43,7 @@ uint16_t IMU_Reset()
 // Get sensor reading
 //
 
-uint16_t IMU_SensorReading(SensorType sensor, uint8_t* data)
+inline uint16_t IMU_SensorReading(SensorType sensor, uint8_t* data)
 {
 	#ifdef IMU_MPU9250
 		return MPU9250_SensorReading(sensor, data);
@@ -56,7 +56,7 @@ uint16_t IMU_SensorReading(SensorType sensor, uint8_t* data)
 // Convert ADC output to gs
 //
 
-uint16_t IMU_AccelToG(int16_t x, int16_t y, int16_t z, float* xG, float* yG, float* zG)
+inline uint16_t IMU_AccelToG(int16_t x, int16_t y, int16_t z, float* xG, float* yG, float* zG)
 {
 	#ifdef IMU_MPU9250
 		return MPU9250_AccelToG(x, y, z, xG, yG, zG);
@@ -69,7 +69,7 @@ uint16_t IMU_AccelToG(int16_t x, int16_t y, int16_t z, float* xG, float* yG, flo
 // Convert ADC output to degrees per second
 //
 
-uint16_t IMU_GyroToDPS(int16_t x, int16_t y, int16_t z, float* xDPS, float* yDPS, float* zDPS)
+inline uint16_t IMU_GyroToDPS(int16_t x, int16_t y, int16_t z, float* xDPS, float* yDPS, float* zDPS)
 {
 	#ifdef IMU_MPU9250
 		return MPU9250_GyroToDPS(x, y, z, xDPS, yDPS, zDPS);
@@ -82,7 +82,7 @@ uint16_t IMU_GyroToDPS(int16_t x, int16_t y, int16_t z, float* xDPS, float* yDPS
 // Convert ADC output to milliGauss
 //
 
-uint16_t IMU_MagTomG(int16_t x, int16_t y, int16_t z, float* xmG, float* ymG, float* zmG)
+inline uint16_t IMU_MagTomG(int16_t x, int16_t y, int16_t z, float* xmG, float* ymG, float* zmG)
 {
 	#ifdef IMU_MPU9250
 		return MPU9250_MagTomG(x, y, z, xmG, ymG, zmG);
@@ -96,7 +96,7 @@ uint16_t IMU_MagTomG(int16_t x, int16_t y, int16_t z, float* xmG, float* ymG, fl
 // Run IMU self-test
 //
 
-uint16_t IMU_SelfTest()
+inline uint16_t IMU_SelfTest()
 {
 	#ifdef IMU_MPU9250
 		return MPU9250_SelfTest();

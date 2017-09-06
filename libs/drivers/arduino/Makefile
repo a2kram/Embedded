@@ -1,8 +1,10 @@
 SRC_DIR := 
 SOC_DIR := SOC/
-INC_DIR := ../../../
+INC_DIR := ../../../common
+CMN_DIR := ../../../../common
 OBJ_DIR := obj/
 DRV_DIR := ../
+LIB_DIR := ../../libraries
 OUT_DIR := $(DRV_DIR)out/
 
 DRV_SRCS_C := $(wildcard $(SRC_DIR)*.c $(SOC_DIR)*.c)
@@ -32,10 +34,10 @@ clean:
 
 # rule to make objects
 $(OBJ_DIR)%.o : %.c
-	$(CC) $< -c $(CFLAGS) -I $(INC_DIR) -o $(OBJ_DIR)$(notdir $@)
+	$(CC) $< -c $(CFLAGS) -I $(INC_DIR) -I $(CMN_DIR) -I $(LIB_DIR) -I $(DRV_DIR) -o $(OBJ_DIR)$(notdir $@)
 
 $(OBJ_DIR)%.o : %.cpp
-	$(CXX) $< -c $(CFLAGS) -I $(INC_DIR) -o $(OBJ_DIR)$(notdir $@)
+	$(CXX) $< -c $(CFLAGS) -I $(INC_DIR) -I $(CMN_DIR) -I $(LIB_DIR) -I $(DRV_DIR) -o $(OBJ_DIR)$(notdir $@)
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)

@@ -6,12 +6,12 @@
 #include <stddef.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#include "common/facility.h"
-#include "common/statuscodes.h"
-#include "../../libraries/Debug/debug.h"
-#include "../HAL/HAL_Timers.h"
-#include "../HAL/HAL_I2C.h"
-#include "../HAL/HAL_IMU.h"
+#include "facility.h"
+#include "statuscodes.h"
+#include "Debug/debug.h"
+#include "HAL/HAL_Timers.h"
+#include "HAL/HAL_I2C.h"
+#include "HAL/HAL_IMU.h"
 #include "mpu9250_IMU.h"
 
 static bool sInitialized = false;

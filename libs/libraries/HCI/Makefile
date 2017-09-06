@@ -27,9 +27,9 @@ CFLAGS := -Os -Wall -ffunction-sections -fdata-sections $(MCU) $(CPU_SPEED) -MMD
 
 # rule to make target, depend on objects 
 # (make will run rule to make objects since dependency)
-default: LIB_DEBUG
+default: LIB_HCI
 
-LIB_DEBUG: $(OUT_DIR) $(OBJ_DIR) $(LIB_OBJS)
+LIB_HCI: $(OUT_DIR) $(OBJ_DIR) $(LIB_OBJS)
 	cp $(OBJ_DIR)* $(OUT_DIR)
 
 #rule to clean output

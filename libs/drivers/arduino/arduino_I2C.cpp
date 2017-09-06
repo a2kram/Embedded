@@ -4,11 +4,11 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "common/facility.h"
-#include "common/statuscodes.h"
+#include "facility.h"
+#include "statuscodes.h"
 #include "SOC/Wire.h"
-#include "../HAL/HAL_I2C.h"
-#include "../HAL/HAL_Timers.h"
+#include "HAL/HAL_I2C.h"
+#include "HAL/HAL_Timers.h"
 #include "arduino_I2C.h"
 
 

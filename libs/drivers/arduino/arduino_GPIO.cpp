@@ -4,11 +4,11 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "common/facility.h"
-#include "common/statuscodes.h"
+#include "facility.h"
+#include "statuscodes.h"
 #include "SOC/Arduino.h"
-#include "../HAL/HAL_GPIO.h"
-#include "../HAL/HAL_Timers.h"
+#include "HAL/HAL_GPIO.h"
+#include "HAL/HAL_Timers.h"
 #include "arduino_GPIO.h"
 
 static uint8_t sPinReserved [NUM_GPIO_PINS]= {0};

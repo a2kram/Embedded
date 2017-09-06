@@ -14,6 +14,7 @@ extern "C" {
 //
 
 uint16_t Arduino_SOC_Initialize();
+uint16_t Arduino_SOC_crc16(uint8_t* buf, uint8_t start, uint16_t len);
 
 #ifdef __cplusplus
 }

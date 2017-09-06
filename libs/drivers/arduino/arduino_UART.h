@@ -19,6 +19,7 @@ uint16_t Arduino_UART_Available(const uint8_t numport, uint8_t* numbytes);
 uint16_t Arduino_UART_Read(const uint8_t numport, uint8_t* data);
 uint16_t Arduino_UART_Flush(const uint8_t numport);
 uint16_t Arduino_UART_Print(const uint8_t numport, const char *buffer);
+uint16_t Arduino_UART_Send(const uint8_t numport, const uint8_t *buffer, int len);
 
 #ifdef __cplusplus
 }

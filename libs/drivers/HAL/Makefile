@@ -1,7 +1,9 @@
 SRC_DIR := 
-INC_DIR := ../../../
+INC_DIR := ../../../common
+CMN_DIR := ../../../../common
 OBJ_DIR := obj/
 DRV_DIR := ../
+LIB_DIR := ../../libraries
 OUT_DIR := $(DRV_DIR)out/
 
 LIB_NAME := libHAL_$(BOARD)
@@ -45,10 +47,10 @@ clean:
 
 # rule to make objects
 $(OBJ_DIR)%.o : %.c
-	$(CC) $< $(CFLAGS) -I $(INC_DIR) $(LFLAGS) -c -o $@
+	$(CC) $< $(CFLAGS) -I $(INC_DIR) -I $(CMN_DIR) -I $(LIB_DIR) -I $(DRV_DIR) $(LFLAGS) -c -o $@
 
 $(OBJ_DIR)%.o : %.cpp
-	$(CXX) $< $(CFLAGS) -I $(INC_DIR) $(LFLAGS) -c -o $@
+	$(CXX) $< $(CFLAGS) -I $(INC_DIR) -I $(CMN_DIR) -I $(LIB_DIR) -I $(DRV_DIR) $(LFLAGS) -c -o $@
 
 $(LIB_DEPLIB):
     # split the target into directory and file path. This assumes that all

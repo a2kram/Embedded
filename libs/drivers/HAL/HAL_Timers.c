@@ -3,13 +3,13 @@
 */
 
 #include <stdint.h>
-#include "common/facility.h"
-#include "common/statuscodes.h"
-#include "common/board.h"
+#include "facility.h"
+#include "statuscodes.h"
+#include "board.h"
 #include "HAL_Timers.h"
 
 #ifdef SOC_ARDUINO
-#include "../arduino/SOC/Arduino.h"
+#include "arduino/SOC/Arduino.h"
 #endif
 
 
@@ -17,7 +17,7 @@
 //	Initialize Timers driver
 //	
 
-uint16_t Timers_Init()
+inline uint16_t Timers_Init()
 {
 	return STATUS_UNIMPLEMENTED;
 }
@@ -27,7 +27,7 @@ uint16_t Timers_Init()
 //	Delay by ms milliseconds
 //
 
-uint16_t Timers_DelayMs(uint64_t ms)
+inline uint16_t Timers_DelayMs(uint64_t ms)
 {
 	#ifdef SOC_ARDUINO
 		delay(ms);
@@ -43,7 +43,7 @@ uint16_t Timers_DelayMs(uint64_t ms)
 //	Return time since program started running in milliseconds
 //
 
-uint32_t Timers_Micros()
+inline uint32_t Timers_Micros()
 {
 	#ifdef SOC_ARDUINO
 		return micros();

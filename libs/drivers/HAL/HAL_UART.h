@@ -49,6 +49,7 @@ uint16_t UART_Available(const uint8_t numport, uint8_t* numbytes);
 uint16_t UART_Read(const uint8_t numport, uint8_t* data);
 uint16_t UART_Flush(const uint8_t numport);
 uint16_t UART_Print(const uint8_t numport, const char* data);
+uint16_t UART_Send(const uint8_t numport, const uint8_t *buffer, int len);
 
 #ifdef __cplusplus
 }

@@ -9,10 +9,12 @@
 #include <stdio.h>
 #include "facility.h"
 #include "statuscodes.h"
-#include "../../drivers/HAL/HAL_UART.h"
+#include "HAL/HAL_UART.h"
 #include "debug.h"
  
 static bool isInitialized = false;
+
+//#define DEBUG_ENABLED
 
 
 //
@@ -38,7 +40,9 @@ void Debug_Initialize()
 
 void Debug_Print(const char* format, ...)
 {
-	va_list varargs;
+  #ifdef DEBUG_ENABLED
+	
+  va_list varargs;
 	char buffer[MAX_DEBUG_MSG_LEN];
 	
 	if(format == NULL)
@@ -61,6 +65,8 @@ void Debug_Print(const char* format, ...)
 	va_end(varargs);
 
 	UART_Print(DEBUG_UART_NUM, buffer);
+  
+  #endif
 }
 
 
@@ -70,6 +76,8 @@ void Debug_Print(const char* format, ...)
 
 void Debug_PrintFloat(float value, int places) 
 {
+  #ifdef DEBUG_ENABLED
+
   int digit;
   int tenscount = 0;
   int i;
@@ -144,4 +152,6 @@ void Debug_PrintFloat(float value, int places)
     // once written, subtract off that digit
     tempfloat = tempfloat - (float) digit; 
   }
+
+  #endif
 }
